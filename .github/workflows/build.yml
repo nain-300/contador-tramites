@@ -17,11 +17,20 @@ jobs:
           
       - name: Install dependencies
         run: |
-          pip install pyinstaller keyboard openpyxl
+          pip install pyinstaller pillow keyboard openpyxl
           
       - name: Build EXE
         run: |
-          pyinstaller --onefile --windowed --icon=icono.ico --name "Contador de Tramites" contador.py
+          pyinstaller --onefile --windowed \
+            --icon=icono.ico \
+            --name "Contador de Tramites" \
+            --hidden-import=keyboard \
+            --hidden-import=openpyxl \
+            --hidden-import=PIL \
+            --hidden-import=PIL.Image \
+            --collect-all keyboard \
+            --collect-all openpyxl \
+            contador.py
           
       - name: Create or update Release
         uses: ncipollo/release-action@v1
