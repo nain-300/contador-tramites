@@ -63,3 +63,16 @@ contador-tramites/
 ├── requirements.txt           # Dependencias: keyboard, openpyxl
 └── README.md                  # Este archivo
 ```
+
+---
+
+## 🛠 Para el desarrollador (Flujo de actualización)
+
+El programa se auto-actualiza consultando las versiones en este repositorio. Para publicar un cambio:
+
+1. Realiza las modificaciones necesarias en `contador.py`.
+2. Actualiza el número de versión en la variable `VERSION` al inicio de `contador.py` (ej: `1.0.1`, `1.0.2`, etc.).
+3. Modifica el archivo `version.txt` con exactamente el mismo número de versión (ej: `1.0.1`).
+4. Haz `git push` de los cambios al repositorio.
+
+La próxima vez que los usuarios abran el programa, la función `check_for_updates()` detectará que la versión en `version.txt` es mayor a la local, y descargará e instalará automáticamente el nuevo código.

@@ -15,6 +15,9 @@ import platform
 
 import keyboard
 
+# ─── Versión ─────────────────────────────────────────────────────────────────
+VERSION = "1.0.1"
+
 # ─── Rutas ───────────────────────────────────────────────────────────────────
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_FILE = os.path.join(SCRIPT_DIR, "data.json")
@@ -181,7 +184,7 @@ class ContadorTramitesApp:
         # Botón deshacer
         self.undo_btn = tk.Label(
             bottom, text="Deshacer", font=("Segoe UI", 9),
-            bg=BG_COLOR, fg=RED_MUTED, padx=4
+            bg=BG_COLOR, fg=RED_MUTED, padx=4, width=8
         )
         self.undo_btn.pack(side="right", padx=(0, 2))
         self.undo_btn.bind("<Button-1>", lambda e: self._undo())
@@ -305,7 +308,9 @@ class ContadorTramitesApp:
         # Centrar respecto a la ventana principal
         dialog.transient(self.root)
         dialog.update_idletasks()
-        dialog.after(100, dialog.grab_set)
+        dialog.lift()
+        dialog.focus_force()
+        dialog.after(150, dialog.grab_set)
 
         current_hotkey = self.data.get("hotkey", DEFAULT_HOTKEY)
         captured_key = {"value": None}  # mutable para el thread
@@ -534,25 +539,34 @@ class ContadorTramitesApp:
 
 
 def check_for_updates():
-    """Busca actualizaciones en GitHub, reemplaza el archivo local y reinicia si es necesario."""
-    url = "https://raw.githubusercontent.com/nain-300/contador-tramites/master/contador.py"
+    """Busca actualizaciones en GitHub usando version.txt, reemplaza el archivo local y reinicia si es necesario."""
+    version_url = "https://raw.githubusercontent.com/nain-300/contador-tramites/master/version.txt"
+    code_url = "https://raw.githubusercontent.com/nain-300/contador-tramites/master/contador.py"
     try:
         import urllib.request
-        req = urllib.request.Request(url, headers={'Cache-Control': 'no-cache'})
-        with urllib.request.urlopen(req, timeout=3) as response:
-            remote_code = response.read().decode('utf-8').replace('\r\n', '\n')
+        
+        # Consultar la versión remota
+        req_version = urllib.request.Request(version_url, headers={'Cache-Control': 'no-cache'})
+        with urllib.request.urlopen(req_version, timeout=3) as response:
+            remote_version = response.read().decode('utf-8').strip()
             
-        with open(os.path.abspath(__file__), 'r', encoding='utf-8') as f:
-            local_code = f.read().replace('\r\n', '\n')
+        def parse_version(v):
+            return tuple(map(int, v.strip().split(".")))
             
-        if remote_code and remote_code != local_code:
-            with open(os.path.abspath(__file__), 'w', encoding='utf-8') as f:
-                f.write(remote_code)
-            os.execv(sys.executable, [sys.executable] + sys.argv)
+        # Si la versión remota es mayor a la local, se actualiza
+        if parse_version(remote_version) > parse_version(VERSION):
+            req_code = urllib.request.Request(code_url, headers={'Cache-Control': 'no-cache'})
+            with urllib.request.urlopen(req_code, timeout=3) as response:
+                remote_code = response.read().decode('utf-8').replace('\r\n', '\n')
+                
+            if remote_code:
+                with open(os.path.abspath(__file__), 'w', encoding='utf-8') as f:
+                    f.write(remote_code)
+                os.execv(sys.executable, [sys.executable] + sys.argv)
     except Exception:
         if sys.stdout is not None:
             try:
-                print("sin conexión, usando versión local")
+                print("sin conexión o error al actualizar, usando versión local")
             except Exception:
                 pass
 
