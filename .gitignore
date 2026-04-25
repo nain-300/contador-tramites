@@ -1,2 +1,6 @@
 historial_tramites.xlsx
 data.json
+*.exe
+build/
+dist/
+*.spec

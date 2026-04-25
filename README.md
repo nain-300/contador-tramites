@@ -76,3 +76,15 @@ El programa se auto-actualiza consultando las versiones en este repositorio. Par
 4. Haz `git push` de los cambios al repositorio.
 
 La próxima vez que los usuarios abran el programa, la función `check_for_updates()` detectará que la versión en `version.txt` es mayor a la local, y descargará e instalará automáticamente el nuevo código.
+
+### Generar .exe para Windows
+
+Para generar un archivo ejecutable que se pueda usar en Windows sin tener Python instalado:
+
+1. Asegúrate de estar en una PC con Windows y tener Python instalado.
+2. Instala las dependencias ejecutando: `pip install -r requirements.txt`
+3. Ejecuta el script **`generar_exe.bat`**.
+4. El archivo `Contador de Tramites.exe` aparecerá dentro de la carpeta `dist/`.
+5. Ese `.exe` se puede distribuir a cualquier PC con Windows y funcionará sin necesidad de instalar nada más.
+
+> **Nota:** El archivo `.exe` **NO** se sube a GitHub (está ignorado en el `.gitignore`). Se debe compartir directamente por Drive, WhatsApp u otros medios.
