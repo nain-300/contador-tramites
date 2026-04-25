@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Contador de Trámites
+Comment=Contador de trámites diarios con hotkey F1
+Exec=bash -c 'cd /home/nain/antigravity/contador-tramites && sudo python3 contador.py'
+Icon=accessories-calculator
+Terminal=true
+Type=Application
+Categories=Utility;
+StartupNotify=false
