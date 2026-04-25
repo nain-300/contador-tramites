@@ -1,3 +1,12 @@
+import sys
+import os
+
+if getattr(sys, 'frozen', False):
+    # Cuando corre como .exe compilado con PyInstaller
+    # Usar la carpeta del .exe como base en vez de Temp
+    os.environ['TEMP'] = os.path.dirname(sys.executable)
+    os.environ['TMP'] = os.path.dirname(sys.executable)
+
 #!/usr/bin/env python3
 """
 Contador de Trámites — Aplicación de escritorio para contar trámites diarios.
@@ -5,8 +14,6 @@ Hotkey global configurable (F1 por defecto) para sumar un trámite.
 """
 
 import json
-import os
-import sys
 import threading
 from datetime import datetime, date
 import tkinter as tk
@@ -16,12 +23,13 @@ import platform
 import keyboard
 
 # ─── Versión ─────────────────────────────────────────────────────────────────
-VERSION = "1.0.8"
+VERSION = "1.0.9"
 
 # ─── Rutas ───────────────────────────────────────────────────────────────────
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_FILE = os.path.join(SCRIPT_DIR, "data.json")
 EXCEL_FILE = os.path.join(SCRIPT_DIR, "historial_tramites.xlsx")
+
 
 # ─── Colores y estilos ──────────────────────────────────────────────────────
 BG_COLOR = "#1e1e2e"
