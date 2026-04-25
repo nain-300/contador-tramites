@@ -16,7 +16,7 @@ import platform
 import keyboard
 
 # ─── Versión ─────────────────────────────────────────────────────────────────
-VERSION = "1.0.3"
+VERSION = "1.0.4"
 
 # ─── Rutas ───────────────────────────────────────────────────────────────────
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -601,6 +601,7 @@ def check_for_updates():
     code_url = "https://raw.githubusercontent.com/nain-300/contador-tramites/master/contador.py"
     try:
         import urllib.request
+        import webbrowser
         
         # Consultar la versión remota
         req_version = urllib.request.Request(version_url, headers={'Cache-Control': 'no-cache'})
@@ -612,14 +613,33 @@ def check_for_updates():
             
         # Si la versión remota es mayor a la local, se actualiza
         if parse_version(remote_version) > parse_version(VERSION):
-            req_code = urllib.request.Request(code_url, headers={'Cache-Control': 'no-cache'})
-            with urllib.request.urlopen(req_code, timeout=3) as response:
-                remote_code = response.read().decode('utf-8').replace('\r\n', '\n')
+            is_frozen = getattr(sys, 'frozen', False)
+            
+            if is_frozen:
+                # Mostrar popup preguntando si quiere descargar
+                temp_root = tk.Tk()
+                temp_root.withdraw()
+                temp_root.attributes("-topmost", True)
                 
-            if remote_code:
-                with open(os.path.abspath(__file__), 'w', encoding='utf-8') as f:
-                    f.write(remote_code)
-                os.execv(sys.executable, [sys.executable] + sys.argv)
+                respuesta = messagebox.askyesno(
+                    "Actualización disponible",
+                    f"Hay una nueva versión disponible ({remote_version}).\n¿Querés descargarla?",
+                    parent=temp_root
+                )
+                
+                temp_root.destroy()
+                
+                if respuesta:
+                    webbrowser.open("https://github.com/nain-300/contador-tramites/releases")
+            else:
+                req_code = urllib.request.Request(code_url, headers={'Cache-Control': 'no-cache'})
+                with urllib.request.urlopen(req_code, timeout=3) as response:
+                    remote_code = response.read().decode('utf-8').replace('\r\n', '\n')
+                    
+                if remote_code:
+                    with open(os.path.abspath(__file__), 'w', encoding='utf-8') as f:
+                        f.write(remote_code)
+                    os.execv(sys.executable, [sys.executable] + sys.argv)
     except Exception:
         if sys.stdout is not None:
             try:
