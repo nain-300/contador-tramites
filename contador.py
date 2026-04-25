@@ -16,7 +16,7 @@ import platform
 import keyboard
 
 # ─── Versión ─────────────────────────────────────────────────────────────────
-VERSION = "1.0.2"
+VERSION = "1.0.3"
 
 # ─── Rutas ───────────────────────────────────────────────────────────────────
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -93,6 +93,19 @@ class ContadorTramitesApp:
 
         # ── Ventana ──────────────────────────────────────────────────────
         self.root = tk.Tk()
+        
+        # Cargar icono
+        icon_path = os.path.join(SCRIPT_DIR, "icono.ico")
+        if os.path.exists(icon_path):
+            try:
+                if platform.system() == "Windows":
+                    self.root.iconbitmap(icon_path)
+                else:
+                    icon_img = tk.PhotoImage(file=icon_path)
+                    self.root.iconphoto(True, icon_img)
+            except Exception as e:
+                print(f"Error cargando icono: {e}", file=sys.stderr)
+                
         self.root.title("Contador")
         self.root.overrideredirect(True)          # Sin barra de título
         self.root.attributes("-topmost", True)     # Siempre encima
