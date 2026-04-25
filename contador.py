@@ -16,7 +16,7 @@ import platform
 import keyboard
 
 # ─── Versión ─────────────────────────────────────────────────────────────────
-VERSION = "1.0.1"
+VERSION = "1.0.2"
 
 # ─── Rutas ───────────────────────────────────────────────────────────────────
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -460,6 +460,29 @@ class ContadorTramitesApp:
                 )
             return
 
+        excel_path = self.data.get("excel_path")
+        if not excel_path:
+            from tkinter import filedialog
+            if platform.system() == "Windows":
+                initial_dir = os.path.expanduser("~/Documents")
+            else:
+                initial_dir = os.path.expanduser("~/Documentos")
+                
+            excel_path = filedialog.asksaveasfilename(
+                parent=self.root,
+                title="Guardar Excel",
+                initialdir=initial_dir,
+                initialfile="historial_tramites.xlsx",
+                defaultextension=".xlsx",
+                filetypes=[("Archivos Excel", "*.xlsx")]
+            )
+            
+            if not excel_path:
+                return
+                
+            self.data["excel_path"] = excel_path
+            save_data(self.data)
+
         # Nombre de la hoja: DD-MM-YYYY
         raw_date = self.data.get("date", date.today().isoformat())
         try:
@@ -469,9 +492,9 @@ class ContadorTramitesApp:
             sheet_name = raw_date
 
         # Abrir o crear el workbook
-        if os.path.exists(EXCEL_FILE):
+        if os.path.exists(excel_path):
             try:
-                wb = load_workbook(EXCEL_FILE)
+                wb = load_workbook(excel_path)
             except Exception:
                 wb = Workbook()
         else:
@@ -517,13 +540,9 @@ class ContadorTramitesApp:
         ws.column_dimensions["C"].width = 12
 
         try:
-            wb.save(EXCEL_FILE)
+            wb.save(excel_path)
             if show_msg:
-                messagebox.showinfo(
-                    "Exportar",
-                    f"Historial exportado a:\n{EXCEL_FILE}",
-                    parent=self.root
-                )
+                self._show_success_popup(f"Guardado en:\n{excel_path}")
         except IOError as e:
             if show_msg:
                 messagebox.showerror(
@@ -531,6 +550,31 @@ class ContadorTramitesApp:
                     f"No se pudo guardar el archivo:\n{e}",
                     parent=self.root
                 )
+
+    def _show_success_popup(self, msg):
+        dialog = tk.Toplevel(self.root)
+        dialog.overrideredirect(True)
+        dialog.configure(bg=BG_LIGHTER, highlightbackground=BORDER_COLOR, highlightthickness=1)
+        
+        x = self.root.winfo_x()
+        y = self.root.winfo_y() + self.root.winfo_height() + 5
+        dialog.geometry(f"+{x}+{y}")
+        
+        dialog.transient(self.root)
+        dialog.update_idletasks()
+        dialog.lift()
+        
+        lbl = tk.Label(
+            dialog, text="✅ Exportación Exitosa\n" + msg,
+            font=("Segoe UI", 8), bg=BG_LIGHTER, fg=TEXT_SECONDARY,
+            justify="left", padx=8, pady=6
+        )
+        lbl.pack()
+        
+        close_func = lambda e=None: dialog.destroy()
+        dialog.bind("<Button-1>", close_func)
+        lbl.bind("<Button-1>", close_func)
+        dialog.after(3000, close_func)
 
     # ── Run ───────────────────────────────────────────────────────────────
 
