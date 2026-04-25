@@ -166,13 +166,7 @@ class ContadorTramitesApp:
         bottom = tk.Frame(body, bg=BG_COLOR)
         bottom.pack(fill="x", pady=(0, 2))
 
-        # Texto "trámites hoy"
-        self.info_var = tk.StringVar(value="trámites hoy")
-        info_lbl = tk.Label(
-            bottom, textvariable=self.info_var,
-            font=("Segoe UI", 9), bg=BG_COLOR, fg=TEXT_MUTED
-        )
-        info_lbl.pack(side="left")
+
 
         # Botón exportar Excel
         export_btn = tk.Label(
@@ -257,10 +251,8 @@ class ContadorTramitesApp:
         if self.data["timestamps"]:
             last_ts = self.data["timestamps"][-1]
             self.last_var.set(f"Últ: {last_ts}")
-            self.info_var.set("trámites hoy")
         else:
             self.last_var.set("")
-            self.info_var.set(f"trámites hoy · {hotkey} para sumar")
 
         # Habilitar/deshabilitar botón deshacer
         if self.data["count"] > 0:
