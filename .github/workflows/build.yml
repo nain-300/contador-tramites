@@ -20,19 +20,7 @@ jobs:
           pip install pyinstaller==5.13.2 pillow keyboard openpyxl
           
       - name: Build EXE
-        run: |
-          pyinstaller --onefile --windowed \
-            --icon=icono.ico \
-            --name "Contador de Tramites" \
-            --hidden-import=keyboard \
-            --hidden-import=openpyxl \
-            --hidden-import=collections.abc \
-            --hidden-import=PIL \
-            --hidden-import=PIL.Image \
-            --collect-all keyboard \
-            --collect-all openpyxl \
-            contador.py
-          
+        run: pyinstaller --onefile --windowed --icon=icono.ico --name "Contador de Tramites" --hidden-import=collections.abc --hidden-import=keyboard --hidden-import=openpyxl --collect-all keyboard --collect-all openpyxl contador.py
       - name: Create or update Release
         uses: ncipollo/release-action@v1
         with:
