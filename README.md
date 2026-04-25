@@ -17,6 +17,7 @@ Se queda siempre visible encima de otras ventanas y registra cada trámite con u
 | **Botón Deshacer** | Un botón rojo "Deshacer" resta 1 y elimina el último registro si te equivocaste. Se deshabilita solo cuando el contador está en 0. |
 | **Auto-actualización** | Al iniciar, el programa busca si hay una nueva versión en GitHub y se actualiza solo (si no hay internet, inicia normalmente). |
 | **Draggable** | Podés mover la ventana arrastrándola a cualquier parte de la pantalla. |
+| **Ícono personalizado** | El programa tiene su propio ícono reconocible en vez del ícono genérico de Python. |
 
 ---
 
@@ -28,6 +29,8 @@ Se queda siempre visible encima de otras ventanas y registra cada trámite con u
 1. Ir a https://github.com/nain-300/contador-tramites/releases
 2. Descargar **`Contador de Tramites.exe`**
 3. Doble clic para abrir (No necesitás instalar Python ni nada más)
+
+> **Nota:** Si aparece un aviso de Windows Defender, hacé clic en "Más información" → "Ejecutar de todas formas". Solo ocurre la primera vez.
 
 ---
 
@@ -55,14 +58,14 @@ Se queda siempre visible encima de otras ventanas y registra cada trámite con u
 
 ```text
 contador-tramites/
-├── contador.py                # Lógica principal + UI
-├── Contador de Tramites.sh                   # Lanzador para Linux (doble clic o clic derecho → ejecutar)
-├── Contador de Tramites.exe                  # Ejecutable nativo para Windows
-├── generar_exe.sh                            # Script para compilar el .exe con PyInstaller
-├── data.json                  # Guardado automático (se genera solo)
-├── historial_tramites.xlsx    # Exportación Excel (se genera automáticamente)
-├── requirements.txt           # Dependencias: keyboard, openpyxl
-└── README.md                  # Este archivo
+├── contador.py
+├── Contador de Tramites.sh
+├── Contador de Tramites.bat
+├── Contador de Tramites.desktop
+├── version.txt
+├── requirements.txt
+├── .github/workflows/build.yml
+└── README.md
 ```
 
 ---
@@ -80,12 +83,6 @@ La próxima vez que los usuarios abran el programa, la función `check_for_updat
 
 ### Generar .exe para Windows
 
-Para generar un archivo ejecutable que se pueda usar en Windows sin tener Python instalado:
-
-1. Asegúrate de estar en una PC con Windows y tener Python instalado.
-2. Instala las dependencias ejecutando: `pip install -r requirements.txt`
-3. Ejecuta el script **`generar_exe.bat`**.
-4. El archivo `Contador de Tramites.exe` aparecerá dentro de la carpeta `dist/`.
-5. Ese `.exe` se puede distribuir a cualquier PC con Windows y funcionará sin necesidad de instalar nada más.
-
-> **Nota:** El archivo `.exe` **NO** se sube a GitHub (está ignorado en el `.gitignore`). Se debe compartir directamente por Drive, WhatsApp u otros medios.
+El .exe se genera automáticamente en GitHub Actions cada vez que se hace git push. No es necesario generarlo manualmente.
+Para descargarlo ir a:
+https://github.com/nain-300/contador-tramites/releases
