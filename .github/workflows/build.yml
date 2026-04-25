@@ -13,14 +13,14 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.11'
           
       - name: Install dependencies
-        run: |
-          pip install pyinstaller==5.13.2 pillow keyboard openpyxl
+        run: pip install pyinstaller keyboard openpyxl pillow
           
       - name: Build EXE
-        run: pyinstaller --onefile --windowed --icon=icono.ico --name "Contador de Tramites" --hidden-import=collections.abc --hidden-import=keyboard --hidden-import=openpyxl --collect-all keyboard --collect-all openpyxl contador.py
+        run: pyinstaller --onefile --windowed --name "Contador de Tramites" --hidden-import tkinter --hidden-import tkinter.ttk --hidden-import tkinter.messagebox --hidden-import tkinter.filedialog --hidden-import keyboard --hidden-import openpyxl --hidden-import PIL contador.py
+
       - name: Create or update Release
         uses: ncipollo/release-action@v1
         with:
