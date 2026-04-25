@@ -11,24 +11,20 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           
       - name: Install dependencies
         run: |
-          pip install pyinstaller
-          pip install keyboard
-          pip install openpyxl
+          pip install pyinstaller keyboard openpyxl
           
       - name: Build EXE
         run: |
           pyinstaller --onefile --windowed --name "Contador de Tramites" contador.py
           
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
+      - name: Upload EXE as artifact
+        uses: actions/upload-artifact@v4
         with:
-          tag_name: latest
-          name: "Contador de Tramites - ultima version"
-          files: dist/Contador de Tramites.exe
-          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Contador-de-Tramites
+          path: "dist/Contador de Tramites.exe"
