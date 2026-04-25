@@ -23,7 +23,7 @@ import platform
 import keyboard
 
 # ─── Versión ─────────────────────────────────────────────────────────────────
-VERSION = "1.0.9"
+VERSION = "1.1.0"
 
 # ─── Rutas ───────────────────────────────────────────────────────────────────
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
