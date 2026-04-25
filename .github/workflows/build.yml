@@ -23,8 +23,12 @@ jobs:
         run: |
           pyinstaller --onefile --windowed --name "Contador de Tramites" contador.py
           
-      - name: Upload EXE as artifact
-        uses: actions/upload-artifact@v4
+      - name: Create or update Release
+        uses: ncipollo/release-action@v1
         with:
-          name: Contador-de-Tramites
-          path: "dist/Contador de Tramites.exe"
+          tag: "latest"
+          name: "Ultima version"
+          allowUpdates: true
+          replacesArtifacts: true
+          artifacts: "dist/Contador de Tramites.exe"
+          token: ${{ secrets.GITHUB_TOKEN }}
