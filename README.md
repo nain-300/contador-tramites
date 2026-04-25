@@ -24,12 +24,9 @@ Se queda siempre visible encima de otras ventanas y registra cada trámite con u
 
 ### 🪟 En Windows
 
-**Requisito previo:** Necesitás tener Python instalado. Si no lo tenés, descargalo de [python.org](https://www.python.org/downloads/) o de la Microsoft Store. **Importante:** Al instalar, asegurate de marcar la casilla **"Add Python to PATH"**.
-
 **Para usar el programa:**
-1. Hacé doble clic en **`Contador de Tramites.bat`**.
-2. Te pedirá permisos de Administrador (es necesario para que el contador detecte tu tecla de fondo).
-3. La primera vez, descargará las dependencias necesarias de forma automática.
+1. Descargá el archivo **`Contador de Tramites.exe`**.
+2. Hacé doble clic para abrirlo. (No necesitás instalar nada más).
 
 ---
 
@@ -43,7 +40,7 @@ Se queda siempre visible encima de otras ventanas y registra cada trámite con u
 
 ## 💡 Uso paso a paso
 
-1. **Abrí el programa** con tu lanzador correspondiente (`Contador de Tramites.bat` o `Contador de Tramites.sh`). La ventanita aparecerá en la esquina superior derecha.
+1. **Abrí el programa** con tu lanzador correspondiente (`Contador de Tramites.exe` en Windows o `Contador de Tramites.sh` en Linux). La ventanita aparecerá en la esquina superior derecha.
 2. Si querés usar una tecla distinta a F1, hacé clic en el botón azul **"⌨ Tecla: F1"** y presioná la tecla que prefieras.
 3. **¡Empezá a trabajar!** Seguí en tu navegador u otros programas.
 4. Cada vez que termines un trámite, presioná tu tecla elegida. Vas a ver cómo el contador sube.
@@ -59,7 +56,8 @@ Se queda siempre visible encima de otras ventanas y registra cada trámite con u
 contador-tramites/
 ├── contador.py                # Lógica principal + UI
 ├── Contador de Tramites.sh                   # Lanzador para Linux (doble clic o clic derecho → ejecutar)
-├── Contador de Tramites.bat                  # Lanzador para Windows (doble clic, pide permisos admin)
+├── Contador de Tramites.exe                  # Ejecutable nativo para Windows
+├── generar_exe.sh                            # Script para compilar el .exe con PyInstaller
 ├── data.json                  # Guardado automático (se genera solo)
 ├── historial_tramites.xlsx    # Exportación Excel (se genera automáticamente)
 ├── requirements.txt           # Dependencias: keyboard, openpyxl
