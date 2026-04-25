@@ -13,11 +13,11 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.10'
           
       - name: Install dependencies
         run: |
-          pip install pyinstaller pillow keyboard openpyxl
+          pip install pyinstaller==5.13.2 pillow keyboard openpyxl
           
       - name: Build EXE
         run: |
@@ -26,6 +26,7 @@ jobs:
             --name "Contador de Tramites" \
             --hidden-import=keyboard \
             --hidden-import=openpyxl \
+            --hidden-import=collections.abc \
             --hidden-import=PIL \
             --hidden-import=PIL.Image \
             --collect-all keyboard \
