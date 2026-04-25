@@ -1,91 +1,67 @@
 # ⚡ Contador de Trámites
 
 Aplicación de escritorio mínima para contar trámites laborales procesados por día.  
-Se queda siempre visible encima de otras ventanas y registra cada trámite con una hotkey global — sin necesidad de hacer clic ni cambiar de ventana.
+Se queda siempre visible encima de otras ventanas y registra cada trámite con una hotkey global personalizable — sin necesidad de hacer clic ni cambiar de ventana.
 
 ---
 
-## Características
+## ✨ Características
 
 | Función | Detalle |
 |---|---|
-| **Hotkey global** | Presioná **F1** en cualquier momento (sin importar qué ventana tenga el foco) para sumar 1 al contador. |
-| **Always on top** | La ventana flota encima de todas las demás aplicaciones. |
-| **Persistencia** | Los datos se guardan automáticamente en `data.json`. Si cerrás el programa por accidente, no perdés nada. |
-| **Reset diario** | Al abrir un nuevo día, el contador arranca desde cero automáticamente. |
-| **Historial** | Cada trámite queda registrado con la hora exacta (HH:MM:SS). |
-| **Reset manual** | Botón "↺ Reset" con confirmación para empezar de cero. |
+| **Hotkey personalizable** | Por defecto es **F1**, pero podés cambiarla a cualquier tecla o combinación. Funciona en todo momento, sin importar qué ventana estés usando. Se guarda entre sesiones. |
+| **Always on top** | La ventana flota siempre encima de todas las demás aplicaciones. |
+| **Persistencia** | Los datos se guardan automáticamente. Si cerrás el programa por accidente, no perdés nada. |
+| **Reset diario automático** | Al abrir el programa en un nuevo día, el contador arranca desde cero solo. |
+| **Historial y Exportación a Excel** | Cada trámite queda registrado con su hora exacta. Al cerrar la app, se genera/actualiza un archivo `historial_tramites.xlsx` separado por pestañas (DD-MM-YYYY) con columnas de Hora, Cantidad, Acumulado y Totales. También tiene un botón manual de "⬇ Exportar". |
+| **Botón Deshacer** | Un botón rojo "Deshacer" resta 1 y elimina el último registro si te equivocaste. Se deshabilita solo cuando el contador está en 0. |
+| **Auto-actualización** | Al iniciar, el programa busca si hay una nueva versión en GitHub y se actualiza solo (si no hay internet, inicia normalmente). |
 | **Draggable** | Podés mover la ventana arrastrándola a cualquier parte de la pantalla. |
 
 ---
 
-## Instalación y Ejecución
+## 🚀 Instalación y Ejecución
 
 ### 🪟 En Windows
 
 **Requisito previo:** Necesitás tener Python instalado. Si no lo tenés, descargalo de [python.org](https://www.python.org/downloads/) o de la Microsoft Store. **Importante:** Al instalar, asegurate de marcar la casilla **"Add Python to PATH"**.
 
 **Para usar el programa:**
-1. Hacé doble clic en **`Abrir.bat`**.
-2. Te pedirá permisos de Administrador (es necesario para que el contador detecte tu tecla aunque no estés usando la ventana del programa).
-3. La primera vez, descargará las herramientas necesarias automáticamente y luego se abrirá.
+1. Hacé doble clic en **`Contador de Tramites.bat`**.
+2. Te pedirá permisos de Administrador (es necesario para que el contador detecte tu tecla de fondo).
+3. La primera vez, descargará las dependencias necesarias de forma automática.
 
 ---
 
 ### 🐧 En Linux (Ubuntu / Mint / etc.)
 
-**Opción 1: Instalar en el escritorio**
-1. Abrí la terminal en la carpeta del proyecto.
-2. Ejecutá: `./instalar_lanzador.sh`
-3. Ahora tendrás un ícono de calculadora llamado "Contador de Trámites" en tu escritorio. Hacé doble clic para usarlo.
-
-**Opción 2: Ejecutar directamente**
-Hacé doble clic en **`ejecutar.py`**. 
-*(Si tu sistema no lo abre con doble clic, ejecutá `sudo python3 ejecutar.py` en la terminal).*
+**Para usar el programa:**
+1. Hacé doble clic en **`Contador de Tramites.sh`** (o clic derecho → ejecutar como un programa).
+2. Si la aplicación falla o no detecta la tecla, es porque requiere permisos de superusuario (abrilo desde la terminal con `sudo ./Contador de Tramites.sh`).
 
 ---
 
-## Uso
+## 💡 Uso paso a paso
 
-1. Doble clic en `ejecutar.py`. La ventana aparece en la esquina superior derecha.
-2. Trabajá normalmente en el navegador.
-3. Cada vez que completes un trámite, presioná **F1** — el contador sube.
-4. Para resetear el contador, hacé clic en **↺ Reset** y confirmá.
-5. Cerrá la ventana con la **✕** en la esquina superior derecha.
+1. **Abrí el programa** con tu lanzador correspondiente (`Contador de Tramites.bat` o `Contador de Tramites.sh`). La ventanita aparecerá en la esquina superior derecha.
+2. Si querés usar una tecla distinta a F1, hacé clic en el botón azul **"⌨ Tecla: F1"** y presioná la tecla que prefieras.
+3. **¡Empezá a trabajar!** Seguí en tu navegador u otros programas.
+4. Cada vez que termines un trámite, presioná tu tecla elegida. Vas a ver cómo el contador sube.
+5. Si te equivocás y marcás uno de más, hacé clic en el botón rojo **"Deshacer"**.
+6. Para guardar un Excel intermedio, hacé clic en **"⬇ Exportar"**.
+7. Al final del día, simplemente **cerrá el programa con la ✕**. ¡Tu Excel se actualizará automáticamente con todo el trabajo de hoy!
 
 ---
 
-## Estructura
+## 📂 Estructura de archivos
 
-```
+```text
 contador-tramites/
-├── contador.py      # Lógica principal + UI con Tkinter
-├── ejecutar.py      # Lanzador (doble clic para abrir)
-├── data.json        # Guardado automático (se crea solo)
-├── requirements.txt # Dependencia: keyboard
-└── README.md        # Este archivo
+├── contador.py                # Lógica principal + UI
+├── Contador de Tramites.sh                   # Lanzador para Linux (doble clic o clic derecho → ejecutar)
+├── Contador de Tramites.bat                  # Lanzador para Windows (doble clic, pide permisos admin)
+├── data.json                  # Guardado automático (se genera solo)
+├── historial_tramites.xlsx    # Exportación Excel (se genera automáticamente)
+├── requirements.txt           # Dependencias: keyboard, openpyxl
+└── README.md                  # Este archivo
 ```
-
----
-
-## Formato de `data.json`
-
-```json
-{
-  "date": "2026-04-25",
-  "count": 12,
-  "timestamps": [
-    "08:15:32",
-    "08:22:10",
-    "09:01:45"
-  ]
-}
-```
-
----
-
-## Tecnologías
-
-- **Python 3** + **Tkinter** (incluido en Python)
-- **keyboard** — para captura de hotkeys globales
-- **threading** — para que el listener no bloquee la UI
