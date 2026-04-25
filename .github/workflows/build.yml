@@ -2,35 +2,33 @@ name: Build Windows EXE
 
 on:
   push:
-    branches:
-      - master
-      - main
+    branches: [ master ]
 
 jobs:
   build:
     runs-on: windows-latest
-    
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
-        
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt pyinstaller
-        
-    - name: Build executable
-      run: pyinstaller --onefile --windowed --name "Contador de Tramites" contador.py
-        
-    - name: Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: dist/Contador de Tramites.exe
-        tag_name: build-${{ github.run_number }}
-        name: Build ${{ github.run_number }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: |
+          pip install pyinstaller
+          pip install keyboard
+          pip install openpyxl
+          
+      - name: Build EXE
+        run: |
+          pyinstaller --onefile --windowed --name "Contador de Tramites" contador.py
+          
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: latest
+          name: "Contador de Tramites - ultima version"
+          files: dist/Contador de Tramites.exe
+          token: ${{ secrets.GITHUB_TOKEN }}
