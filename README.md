@@ -25,8 +25,9 @@ Se queda siempre visible encima de otras ventanas y registra cada trámite con u
 ### 🪟 En Windows
 
 **Para usar el programa:**
-1. Descargá el archivo **`Contador de Tramites.exe`**.
-2. Hacé doble clic para abrirlo. (No necesitás instalar nada más).
+1. Ir a https://github.com/nain-300/contador-tramites/releases
+2. Descargar **`Contador de Tramites.exe`**
+3. Doble clic para abrir (No necesitás instalar Python ni nada más)
 
 ---
 
